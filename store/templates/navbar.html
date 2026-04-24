@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="{% url 'home' %}">E-Commerce</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <!-- Home and About Links -->
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a></li>
+
+                <!-- User authentication check -->
+                {% if user.is_authenticated %}
+                <!-- Other links for authenticated users -->
+                {% if user.is_superuser %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'product_list' %}">Manage Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'add-product' %}">Add Product</a>
+                </li>
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'home' %}">All Products</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Electronic Gadgets' %}">Electronic Gadgets</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Clothes' %}">Clothes</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Grocery' %}">Grocery</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Household' %}">Household</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Fruits' %}">Fruits</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <!-- Show Login and Register if user is not authenticated -->
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+
+            <!-- Cart Button -->
+            <form class="d-flex">
+                <a href="{% url 'cart_summary' %}">
+                    <button class="btn btn-outline-dark" type="button">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_quantity">
+                            {{ cart|length }}
+                        </span>
+                    </button>
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>
